@@ -2,7 +2,7 @@
 
 Parse a person's name. A thin wrapper around the [Lingua::EN::NameParse](http://search.cpan.org/perldoc?Lingua::EN::NameParse) cpan module by Kim Ryan.
 
-## `NameParseComponents` Block Tag ##
+## Block tag `NameParseComponents` ##
 
 `mt:NameParseComponents` parses the contained block, then joins the components with a separator.
 No case conversion. The default separator is whitespace.
@@ -26,7 +26,7 @@ Supported components:
     middle_name, conjunction_1, conjunction_2, surname_1. surname_2, suffix
 
 
-## `case_all_reversed` text filter ##
+## Text filter `case_all_reversed` ##
 
 The reversed name  is returned as surname followed by a comma and the rest of the name.
 
