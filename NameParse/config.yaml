@@ -1,0 +1,17 @@
+id: 'NameParse'
+key: 'NameParse'
+name: 'Name Parse'
+description: "Routines for manipulating a person's name."
+version: 0.1
+author_name: 'Rick Bychowski'
+author_link: http://hiranyaloka.com/
+plugin_link: http://hiranyaloka.com/website_design_encinitas/software/nameparse-plugin-for-melody-and-mt4.html
+
+tags:
+  block:
+    NameParseComponents: $NameParse::NameParse::Plugin::nameparse_components
+
+text_filters:
+    case_all_reversed:
+        label: 'Case All Reversed'
+        handler: $NameParse::NameParse::Plugin::case_all_reversed
