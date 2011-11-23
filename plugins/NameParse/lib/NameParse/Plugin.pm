@@ -30,6 +30,8 @@ my $name = new Lingua::EN::NameParse();
 sub nameparse_components {
   my ( $ctx, $args, $cond ) = @_;
   my $blog = $ctx->stash('blog') || return;
+  defined(my $str = $ctx->slurp($args,$cond)) or return;
+  my $error = $name->parse($str);
   my @components = '';
   my %name = $name->components;
   my $separator = $args->{separator} ?  $args->{separator} : " ";
