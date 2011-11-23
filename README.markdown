@@ -1,4 +1,4 @@
-# NameParse 0.14 for Movable Type 4 and Melody #
+# NameParse 0.15 for Movable Type 4 and Melody #
 
 Parse a person's name. A thin wrapper around the [Lingua::EN::NameParse](http://search.cpan.org/perldoc?Lingua::EN::NameParse) cpan module by Kim Ryan.
 
