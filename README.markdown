@@ -26,9 +26,11 @@ NameParse will parse either form to give the same results. To extract and output
 
 outputs "FREDERICK FLINTSTONE".
 
+(Note that the "strip_linefeeds" argument is important when your text contains line returns.)
+
 Format as 'Frederick Flintstone' with the `case` argument (See the "Case Option" section below)
 
-    <mt:NameParseComponents components="given_name_1,surname_1 case="1"">
+    <mt:NameParseComponents components="given_name_1,surname_1 case="1">
         <$mt:Var name="namestring" strip_linefeeds="1"$>
     </mt:NameParseComponents></p>
 
