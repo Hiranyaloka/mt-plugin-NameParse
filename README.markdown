@@ -28,17 +28,17 @@ outputs "FREDERICK FLINTSTONE".
 
 Format as 'Frederick Flintstone' with the `case` argument (See the "Case Option" section below)
 
-    <mt:NameParseComponents components="given_name_1,surname_1">
+    <mt:NameParseComponents components="given_name_1,surname_1 case="1"">
         <$mt:Var name="namestring" strip_linefeeds="1"$>
     </mt:NameParseComponents></p>
 
 To put last name first, followed by first name:
 
-    <mt:NameParseComponents components="surname_1,given_name_1" separator=", ">
+    <mt:NameParseComponents components="surname_1,given_name_1" separator=", " case="1" >
         <$mt:Var name="namestring" strip_linefeeds="1"$>
     </mt:NameParseComponents>
 
-outputs "Flinstone, Frederick".
+outputs "Flintstone, Frederick".
 
 To output the title and surname:
 
@@ -55,13 +55,12 @@ Supported components:
 
 ## Text filter `case_all_reversed` ##
 
-The reversed name  is returned as surname followed by a comma and the rest of the name.
-
+The reversed name  is returned as surname followed by a comma and the rest of the name. Includes the case option.
 Particularly useful for sorting, there is a text filter specifically for that:
 
     <$mt:Var name="namestring" filters="case_all_reversed"$>
 
-outputs "Flinstone, Mr. Frederick J."
+outputs "Flintstone, Mr. Frederick J."
 
 ## Case Option
 The `case_all_reversed` method (and `case` option) converts the first letter of each component to capitals
