@@ -1,25 +1,52 @@
-# NameParse 0.15 for Movable Type 4 and Melody #
+# NameParse 0.90 for Movable Type 4 and 5 #
 
-Parse a person's name. A thin wrapper around the [Lingua::EN::NameParse](http://search.cpan.org/perldoc?Lingua::EN::NameParse) cpan module by Kim Ryan.
+Parses a person's name (English only). A thin wrapper around the [Lingua::EN::NameParse](http://search.cpan.org/perldoc?Lingua::EN::NameParse) cpan module by Kim Ryan.
 
 ## Block tag `NameParseComponents` ##
 
 `mt:NameParseComponents` parses the contained block, then joins the components with a separator.
-No case conversion. The default separator is whitespace.
+Case conversion is optional. The default separator is whitespace.
 
-For example, to extract and output a first and last name from a `mt:AssetLabel` tag:
+For example, if you have a variable (or a tag) that contains a person's name:
 
-    <mt:NameParseComponents given_name_1="1" surname_1="1"><$mt:AssetLabel$></mt:NameParseComponents>
+    <mt:Var  name="namestring" value="MR. FREDERICK J. FLINTSTONE">
 
-outputs "Frederick Flintstone"
+Or perhaps the name is in the form "Last, First"
+
+    <mt:SetVarBlock  name="namestring" >
+        FLINTSTONE,
+            MR. FREDERICK J.
+    </mt:SetVarBlock>
+
+NameParse will parse either form to give the same results. To extract and output a first and last name:
+
+    <mt:NameParseComponents components="given_name_1,surname_1">
+        <$mt:Var name="namestring" strip_linefeeds="1"$>
+    </mt:NameParseComponents></p>
+
+outputs "FREDERICK FLINTSTONE".
+
+Format as 'Frederick Flintstone' with the `case` argument (See the "Case Option" section below)
+
+    <mt:NameParseComponents components="given_name_1,surname_1">
+        <$mt:Var name="namestring" strip_linefeeds="1"$>
+    </mt:NameParseComponents></p>
 
 To put last name first, followed by first name:
 
-    <mt:NameParseComponents surname_1="1" given_name_1="1" separator=", ">
-        <$mt:AssetLabel$>
+    <mt:NameParseComponents components="surname_1,given_name_1" separator=", ">
+        <$mt:Var name="namestring" strip_linefeeds="1"$>
     </mt:NameParseComponents>
 
-outputs "Flinstone, Frederick J."
+outputs "Flinstone, Frederick".
+
+To output the title and surname:
+
+    <mt:NameParseComponents components="title_1,surname_1" case="1">
+        <$mt:Var name="namestring" strip_linefeeds="1"$>
+    </mt:NameParseComponents>
+
+outputs "Mr. Flintstone".
 
 Supported components:
     precursor, title_1, title_2, given_name_1, given_name_2, initials_1, initials_2,
@@ -32,11 +59,12 @@ The reversed name  is returned as surname followed by a comma and the rest of th
 
 Particularly useful for sorting, there is a text filter specifically for that:
 
-    <$mt:AssetLabel convert_breaks="0" filters="case_all_reversed"$>
+    <$mt:Var name="namestring" filters="case_all_reversed"$>
 
-outputs "Flinstone, Frederick J."
+outputs "Flinstone, Mr. Frederick J."
 
-The `case_all_reversed` method converts the first letter of each component to capitals
+## Case Option
+The `case_all_reversed` method (and `case` option) converts the first letter of each component to capitals
 and the remainder to lower case, with the following exceptions-
    
     initials remain capitalised
@@ -46,9 +74,9 @@ and the remainder to lower case, with the following exceptions-
 
 ## Example Usage: Create an image gallery sorted by last name ##
 
-A [recent branch of mt-plugin-Order](https://github.com/Hiranyaloka/mt-plugin-Order/tree/items_per_row) (called `items_per_row`) allows for setting `items_per_row` in the `mt:Order` tag. The `items_per_row` attributethen enables `mt:OrderRowHeader` and `mt:OrderRowFooter` tags.
+Suppose you have image assets where the Asset Label is a person's name. When used with the `NameParse` plugin, an image gallery can be produced in rows of 3 (or 4 etc), and sorted by the last name, parsed from the AssetLabel.
 
-When used with the `NameParse` plugin, an image gallery cane be produced in rows of 3 (or 4 etc), and sorted by the last name, parsed from the AssetLabel.
+A [recent branch of mt-plugin-Order](https://github.com/Hiranyaloka/mt-plugin-Order/tree/items_per_row) (called `items_per_row`) allows for setting `items_per_row` in the `mt:Order` tag. The `items_per_row` attributethen enables `mt:OrderRowHeader` and `mt:OrderRowFooter` tags.
 
     <mt:Order sort_order="ascend" items_per_row="3">
         <mt:OrderRowHeader><div class="gallery"></mt:OrderRowHeader>
@@ -61,7 +89,7 @@ When used with the `NameParse` plugin, an image gallery cane be produced in rows
                 <dl>
                     <dt><img src="<$mt:AssetThumbnailURL width="144"$>" /></dt>
     	              <dt>
-    	                  <mt:NameParseComponents given_name_1="1" surname_1="1">
+    	                  <mt:NameParseComponents components="given_name_1,surname_1">
     	                      <$mt:AssetLabel$>
     	                  </mt:NameParseComponents>
     	              </dt>
@@ -70,6 +98,14 @@ When used with the `NameParse` plugin, an image gallery cane be produced in rows
             </mt:OrderItem>
         </mt:Assets>
     </mt:Order>
+
+## Dependencies ##
+
+Bundled with [Lingua::EN::NameCase](http://search.cpan.org/perldoc?Lingua::EN::NameParse)
+
+## ChangeLog ##
+
+- version 0.9 Added `case` option.  Added `components` argument, which replaces the individual component arguments used in prior versions.
 
 ## Credits ##
 
